@@ -29,6 +29,13 @@ module.exports = [
   },
   prettierConfig,
   {
-    ignores: ['node_modules/', 'playwright-report/', 'test-results/', 'blob-report/'],
+    ignores: [
+      'node_modules/',
+      'playwright-report/',
+      'test-results/',
+      'blob-report/',
+      'allure-report/',
+      'allure-results/',
+    ],
   },
 ];

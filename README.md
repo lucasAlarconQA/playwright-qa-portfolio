@@ -11,6 +11,7 @@ Framework de automatización End-to-End construido con **Playwright** y **JavaSc
 - **Page Object Model (POM)** — separación entre "qué se prueba" (tests) y "cómo se interactúa con la UI" (page objects).
 - **Fixtures de Playwright** — inyección de page objects en los tests, sin instanciarlos manualmente.
 - **ESLint + Prettier** — calidad y formato de código consistente (incluye `eslint-plugin-playwright`).
+- **Allure Report** — reporte enriquecido con agrupación por _epic/feature_, severidad y _steps_ desglosados por test.
 - **GitHub Actions** — ejecución automática de la suite en cada push/PR a `main`.
 
 ## Estructura del proyecto
@@ -58,18 +59,21 @@ npx playwright install
 npm test
 ```
 
+> El reporte Allure requiere tener **Java 8+** instalado (el CLI de Allure es una aplicación Java). El resto del proyecto no lo necesita.
+
 ## Scripts disponibles
 
-| Comando                | Qué hace                                                     |
-| ---------------------- | ------------------------------------------------------------ |
-| `npm test`             | Corre toda la suite en los 3 navegadores                     |
-| `npm run test:ui`      | Abre el modo UI interactivo de Playwright (ideal para debug) |
-| `npm run test:headed`  | Corre los tests con el navegador visible                     |
-| `npm run report`       | Abre el último reporte HTML generado                         |
-| `npm run lint`         | Analiza el código con ESLint                                 |
-| `npm run lint:fix`     | Corrige automáticamente lo que ESLint pueda                  |
-| `npm run format`       | Formatea todo el código con Prettier                         |
-| `npm run format:check` | Verifica el formato sin modificar archivos                   |
+| Comando                 | Qué hace                                                     |
+| ----------------------- | ------------------------------------------------------------ |
+| `npm test`              | Corre toda la suite en los 3 navegadores                     |
+| `npm run test:ui`       | Abre el modo UI interactivo de Playwright (ideal para debug) |
+| `npm run test:headed`   | Corre los tests con el navegador visible                     |
+| `npm run report`        | Abre el último reporte HTML generado                         |
+| `npm run lint`          | Analiza el código con ESLint                                 |
+| `npm run lint:fix`      | Corrige automáticamente lo que ESLint pueda                  |
+| `npm run format`        | Formatea todo el código con Prettier                         |
+| `npm run format:check`  | Verifica el formato sin modificar archivos                   |
+| `npm run allure:report` | Genera y abre el reporte de Allure (requiere Java)           |
 
 ## Reportes y evidencia de fallos
 
@@ -79,7 +83,7 @@ Cada corrida genera un reporte HTML navegable (`playwright-report/`). Cuando un 
 - Video de la ejecución.
 - Traza navegable (DOM, red y consola paso a paso) en el primer reintento.
 
-En CI, el reporte queda disponible como artifact descargable desde la pestaña **Actions** de GitHub, incluso si los tests fallan.
+En CI, tanto el reporte HTML nativo de Playwright como el reporte de **Allure** quedan disponibles como artifacts descargables desde la pestaña **Actions** de GitHub, incluso si los tests fallan. Allure agrupa los resultados por _epic_ (Authentication, Product Catalog) y _feature_ (Login, Signup, Search, Cart), y cada test se puede inspeccionar paso a paso gracias a los `allure.step()` definidos en los specs.
 
 ## Decisiones de diseño
 
